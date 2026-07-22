@@ -19,7 +19,7 @@
 | **Веб-сервер** | Nginx, Let's Encrypt |
 | **Туннелирование** | SSH Tunneling, Reverse Proxy |
 | **Файрвол** | UFW, iptables |
-| **Мониторинг** | systemd, journalctl, ss, netstat |
+| **Мониторинг** | Netdata, systemd, journalctl, ss, netstat |
 | **Бэкапы** | SQLite dump, конфиги, shell-скрипты |
 | **Аутентификация** | SSH-ключи Ed25519, passphrase |
 
@@ -36,6 +36,7 @@
 - [x] Публичный порт подписки заменён на Reverse Proxy
 - [x] Настроен HTTPS для подписки (Nginx + Let's Encrypt)
 - [x] Проверена целостность баз данных (SQLite integrity)
+- [x] Настроен мониторинг сервера (Netdata)
 - [x] Восстановление SSH после критической ошибки конфигурации
 
 ### Инфраструктура
@@ -132,6 +133,7 @@
 | [OWNER-CHECKLIST.md](docs/OWNER-CHECKLIST.md) | Чек-лист передачи |
 | [SECRETS-TO-TRANSFER.md](docs/SECRETS-TO-TRANSFER.md) | Секреты для передачи |
 | [VERIFY-SERVER.sh](VERIFY-SERVER.sh) | Read-only скрипт проверки |
+| [NETDATA.md](docs/NETDATA.md) | Мониторинг и диагностика |
 
 ## 👤 Автор
 
