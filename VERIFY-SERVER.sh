@@ -201,6 +201,26 @@ echo ""
 echo "=== ДИСК ==="
 df -h / | tail -1 | awk '{print "Занято: " $3 "/" $2 " (" $5 ")"}'
 
+# ------------------------------------------
+# 11. Проверка GM-сервера (только на RU)
+# ------------------------------------------
+if [ -f /usr/local/x-ui/bin/config.json ]; then
+    echo ""
+    echo "=== ПРОВЕРКА РЕЗЕРВНОГО GM-СЕРВЕРА ==="
+    GM_IP="GM_SERVER_IP"
+    GM_PORT="8443"
+    
+    if command -v nc &> /dev/null; then
+        if nc -zv "$GM_IP" "$GM_PORT" 2>&1 | grep -q "succeeded"; then
+            echo -e "${GREEN}[OK]${NC} GM-сервер доступен ($GM_IP:$GM_PORT)"
+        else
+            echo -e "${YELLOW}[WARN]${NC} GM-сервер НЕ ДОСТУПЕН ($GM_IP:$GM_PORT)"
+        fi
+    else
+        echo "nc (netcat) не установлен"
+    fi
+fi
+
 echo ""
 echo "========================================="
 echo "   Диагностика завершена"
