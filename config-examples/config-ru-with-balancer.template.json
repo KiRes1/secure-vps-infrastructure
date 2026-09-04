@@ -1,0 +1,112 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "email": "YOUR_EMAIL",
+            "flow": "xtls-rprx-vision",
+            "id": "YOUR_UUID_HERE"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "privateKey": "YOUR_PRIVATE_KEY",
+          "serverNames": ["www.amazon.com"],
+          "shortIds": ["YOUR_SHORT_ID"]
+        }
+      },
+      "tag": "in-443-tcp",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": []
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "RU-NL-CascadeRU-NL",
+      "protocol": "vless",
+      "settings": {
+        "address": "NL_SERVER_IP",
+        "port": 443,
+        "id": "YOUR_UUID_HERE",
+        "flow": "xtls-rprx-vision",
+        "encryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "publicKey": "NL_PUBLIC_KEY",
+          "fingerprint": "firefox",
+          "serverName": "blog.api.www.cloudflare.com",
+          "shortId": "NL_SHORT_ID",
+          "spiderX": "/de5ef2ae403d6c9"
+        }
+      }
+    },
+    {
+      "tag": "RU-GM-Cascade",
+      "protocol": "vless",
+      "settings": {
+        "address": "GM_SERVER_IP",
+        "port": 8443,
+        "id": "YOUR_UUID_HERE",
+        "flow": "xtls-rprx-vision",
+        "encryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "publicKey": "GM_PUBLIC_KEY",
+          "fingerprint": "firefox",
+          "serverName": "blog.api.www.cloudflare.com",
+          "shortId": "GM_SHORT_ID",
+          "spiderX": "/de5ef2ae403d6c9"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "balancers": [
+      {
+        "tag": "balance",
+        "selector": [
+          "RU-NL-CascadeRU-NL",
+          "RU-GM-Cascade"
+        ],
+        "strategy": "leastping"
+      }
+    ],
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "balance",
+        "network": "tcp",
+        "port": "0-65535"
+      }
+    ]
+  }
+}
